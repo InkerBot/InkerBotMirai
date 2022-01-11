@@ -3,10 +3,10 @@ plugins {
     id ("com.github.johnrengelman.shadow").version("7.0.0")
 }
 
-group = "bot.inker.example"
+group = "bot.inker.mirai"
 version = "1.0-SNAPSHOT"
-description = "Hello, InkerBot."
-val mainClass = "bot.inker.example.ExamplePlugin"
+description = "InkerBot Mirai Provider."
+val mainClass = "bot.inker.mirai.MiraiCore"
 
 repositories {
     mavenLocal()
@@ -16,6 +16,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
     compileOnly("bot.inker:api:1.0-SNAPSHOT")
+    api("net.mamoe:mirai-core:2.9.1")
 }
 
 tasks.processResources {
@@ -34,7 +35,16 @@ tasks.shadowJar {
     archiveClassifier.set("app")
 
     dependencies{
+        exclude("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+        exclude("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8")
+        exclude("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm")
+        exclude("org.jetbrains.kotlinx:kotlinx-coroutines-core")
         exclude("org.jetbrains.kotlin")
+        exclude("org.slf4j")
+        exclude("com.squareup.okio")
+        exclude("com.squareup.okhttp3")
+        exclude("org.apache.logging.log4j")
+        exclude("org.jetbrains:annotations")
         exclude {
             (excludes.contains(it.moduleGroup) || excludes.contains(it.moduleGroup+":")
                     || excludes.contains(":"+it.moduleName) || excludes.contains(it.moduleGroup+":"+it.moduleName))
